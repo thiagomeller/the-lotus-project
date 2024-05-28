@@ -5,17 +5,17 @@ import LogoIcon from "../../assets/lotus-logo.svg";
 import CustomSafeAreaView from "../../components/CustomSafeAreaView";
 import { LogoWrapper } from "./styles";
 
-interface HomeProps {}
+interface CartProps {}
 
-const Home = (props: HomeProps) => {
+const Cart = (props: CartProps) => {
   return (
     <CustomSafeAreaView>
       <LogoWrapper>
         <LogoIcon />
       </LogoWrapper>
-      <Text>Home</Text>
+      <Text>Cart</Text>
     </CustomSafeAreaView>
   );
 };
 
-export default Home;
+export default Cart;

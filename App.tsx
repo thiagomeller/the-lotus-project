@@ -1,15 +1,14 @@
 import { View } from "react-native";
-import Home from "./src/screens/Home";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GluestackUIProvider } from "@gluestack-ui/themed";
+
+import { Routes } from "./src/routes";
 
 export default function App() {
   return (
     <GluestackUIProvider>
       <SafeAreaProvider>
-        <View style={{ flex: 1 }}>
-          <Home />
-        </View>
+        <Routes />
       </SafeAreaProvider>
     </GluestackUIProvider>
   );

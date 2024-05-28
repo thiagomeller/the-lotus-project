@@ -1,21 +1,21 @@
 import * as React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text } from "react-native";
 
 import LogoIcon from "../../assets/lotus-logo.svg";
 import CustomSafeAreaView from "../../components/CustomSafeAreaView";
 import { LogoWrapper } from "./styles";
 
-interface HomeProps {}
+interface ProductProps {}
 
-const Home = (props: HomeProps) => {
+const Product = (props: ProductProps) => {
   return (
     <CustomSafeAreaView>
       <LogoWrapper>
         <LogoIcon />
       </LogoWrapper>
-      <Text>Home</Text>
+      <Text>Product :)</Text>
     </CustomSafeAreaView>
   );
 };
 
-export default Home;
+export default Product;
