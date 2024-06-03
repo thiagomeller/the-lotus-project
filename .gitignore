@@ -16,6 +16,9 @@ web-build/
 *.key
 *.mobileprovision
 
+android
+ios
+
 # Metro
 .metro-health-check*
 
