@@ -16,6 +16,9 @@ web-build/
 *.key
 *.mobileprovision
 
+android
+ios
+
 # Metro
 .metro-health-check*
 
@@ -33,3 +36,6 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+# asdf
+.tool-versions
