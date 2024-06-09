@@ -1,4 +1,3 @@
-import { View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { GluestackUIProvider } from "@gluestack-ui/themed";
 import * as SplashScreen from "expo-splash-screen";

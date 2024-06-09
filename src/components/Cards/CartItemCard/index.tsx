@@ -10,9 +10,9 @@ import {
   ItemPrice,
   ItemTitle,
 } from "./styles";
-import IconButton from "../../IconButton";
 import { theme } from "../../../styles/theme";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
 import QuantityChangeButton from "../../QuantityChangeButton";
 
 interface CartItemCardProps {
@@ -28,6 +28,7 @@ const CartItemCard = ({
   itemPrice,
   itemTitle,
 }: CartItemCardProps) => {
+  const navigation = useNavigation();
   function renderRightActions() {
     return (
       <TouchableOpacity
@@ -51,14 +52,18 @@ const CartItemCard = ({
   return (
     <Swipeable renderRightActions={renderRightActions}>
       <CartItemContainer style={{ elevation: 2 }}>
-        <ItemImage
-          source={{
-            uri: imageUrl,
-          }}
-        />
+        <TouchableOpacity onPress={() => navigation.navigate("Product")}>
+          <ItemImage
+            source={{
+              uri: imageUrl,
+            }}
+          />
+        </TouchableOpacity>
         <InfoContainer>
           <View>
-            <ItemTitle>{itemTitle}</ItemTitle>
+            <TouchableOpacity onPress={() => navigation.navigate("Product")}>
+              <ItemTitle>{itemTitle}</ItemTitle>
+            </TouchableOpacity>
             <ItemDescription>{itemDescription}</ItemDescription>
           </View>
           <ItemPrice>{itemPrice}</ItemPrice>
