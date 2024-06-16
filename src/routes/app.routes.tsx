@@ -3,9 +3,12 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import CartIcon from "../assets/cart.svg";
 import HomeIcon from "../assets/home.svg";
+import ProfileIcon from "../assets/profile.svg";
+import NewProduct from "../screens/NewProduct";
 import Home from "../screens/Home";
 import Cart from "../screens/Cart";
 import Product from "../screens/Product";
+import Profile from "../screens/Profile";
 import { theme } from "../styles/theme";
 
 const Tab = createBottomTabNavigator();
@@ -22,6 +25,11 @@ export function AppRoutes() {
       <Stack.Screen
         name="Product"
         component={Product}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="NewProduct"
+        component={NewProduct}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
@@ -46,6 +54,14 @@ export function Tabs() {
         options={{
           tabBarBadge: 3,
           tabBarIcon: () => <CartIcon color={theme.colors.primaryPurple} />,
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          headerShown: false,
+          tabBarIcon: () => <ProfileIcon color={theme.colors.primaryPurple} />,
         }}
       />
     </Tab.Navigator>

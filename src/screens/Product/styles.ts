@@ -30,13 +30,11 @@ export const Text = styled.Text`
 
 export const Footer = styled.View`
   padding: 16px;
-  display: flex;
   flex-direction: row;
   justify-content: space-between;
 `
 
 export const FooterButton = styled.TouchableOpacity`
-  display: flex;
   flex-direction: row;
   align-items: center;
   gap: 16px;
