@@ -13,6 +13,8 @@
     "@gluestack-style/react": "^1.0.56",
     "@gluestack-ui/themed": "^1.1.26",
     "@react-native-firebase/app": "^20.0.0",
+    "@react-native-firebase/auth": "^20.1.0",
+    "@react-native-firebase/database": "^20.1.0",
     "@react-navigation/bottom-tabs": "^6.5.20",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/stack": "^6.3.29",
@@ -32,7 +34,9 @@
     "react-native-screens": "3.31.1",
     "react-native-svg": "15.2.0",
     "react-native-svg-transformer": "^1.4.0",
-    "styled-components": "^6.1.11"
+    "styled-components": "^6.1.11",
+    "expo-build-properties": "~0.12.3",
+    "expo-modules-autolinking": "~1.11.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "645685128068",
+    "project_id": "the-lotus-project-e3035",
+    "storage_bucket": "the-lotus-project-e3035.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:645685128068:android:cd23aed0ca8e60e2720bd1",
+        "android_client_info": {
+          "package_name": "com.satc.lotus"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAvfvPon9Zb5xzifmNSb6ZduG6dP2XUWk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:645685128068:android:fb10de21e6e984ac720bd1",
+        "android_client_info": {
+          "package_name": "com.satc.thelotusproject"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAvfvPon9Zb5xzifmNSb6ZduG6dP2XUWk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
