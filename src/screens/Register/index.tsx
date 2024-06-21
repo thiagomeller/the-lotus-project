@@ -35,7 +35,7 @@ const Login = () => {
       if (response.user) {
         await createProfile(response)
 
-        nav.replace("HomeTab")
+        nav.replace("Login")
       }
     } catch (e) {
       console.log(e)
