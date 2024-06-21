@@ -2,6 +2,10 @@ import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 
+import firebaseApp from '../../../firebaseConfig';
+import auth from "@react-native-firebase/auth";
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+
 import db from "@react-native-firebase/database";
 
 import BackIcon from "../../assets/back.svg";
@@ -24,40 +28,66 @@ interface ProductType {
 const NewProduct = () => {
   const navigation = useNavigation();
 
-  const [title, setTitle] = useState("");
-  const [subtitle, setSubtitle] = useState("");
-  const [value, setValue] = useState("");
-  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState<string>("");
+  const [subtitle, setSubtitle] = useState<string>("");
+  const [value, setValue] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [imgBlob, setImgBlob] = useState<Blob>();
 
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      base64: true,
-      allowsMultipleSelection: true,
+    const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       aspect: [4, 3],
-      quality: 1,
+      quality: 1
     });
 
-    console.log(result);
+    if (result.canceled) {
+      return null
+    };
 
-    // if (!result.canceled) {
-    //   setImage(result.assets[0].uri);
-    // }
+    const img = await fetch(result.assets[0].uri);
+    const bytes = await img.blob();
+
+    setImgBlob(bytes);
   };
 
-  const saveProduct = async ({title, subtitle, value, description }: ProductType) => {
-    const productId = crypto.randomUUID()
+  const uploadImageAndGetURL = async (productId: number, currentUser: string) => {
+    try {
+      // firebaseApp, 'the-lotus-project-e3035.appspot.com'
+      const storage = getStorage(firebaseApp, 'the-lotus-project-e3035.appspot.com');
+      const storageRef = ref(storage, `/${currentUser}/${productId}`);
+  
+      if (imgBlob) {
+        await uploadBytes(storageRef, imgBlob);
+        const url = await getDownloadURL(storageRef);
 
-    await db().ref(`/users/{}/products/${productId}`).set({
+        return url
+      }
+    } catch (error) {
+      console.error("Error uploading image: ", error);
+    }
+  }
+  
+  const saveProduct = async ({title, subtitle, value, description }: ProductType, currentUser: string) => {
+    const productId = Date.now();
+
+    const url = await uploadImageAndGetURL(productId, currentUser);
+
+    await db().ref(`/users/${currentUser}/products/${productId}`).set({
       title,
       subtitle,
       value,
-      description
-    })
-  }
+      description,
+      image: url
+    });
+  };
 
   const handleSubmit = async (product: ProductType) => {
-    await saveProduct(product)
+    const currentUser = auth().currentUser;
+
+    if (currentUser) {
+      await saveProduct(product, currentUser.uid);
+    };
   };
 
   return (
@@ -98,7 +128,7 @@ const NewProduct = () => {
           onChangeText={setDescription}
         />
 
-        <S.ImageButton onPress={pickImage}>
+        <S.ImageButton onPress={() => pickImage()}>
           <FontBold style={{ color: theme.colors.white }}>Imagens</FontBold>
           <ImageIcon color={theme.colors.white} />
         </S.ImageButton>
