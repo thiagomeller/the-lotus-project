@@ -10,6 +10,8 @@ import Cart from "../screens/Cart";
 import Product from "../screens/Product";
 import Profile from "../screens/Profile";
 import { theme } from "../styles/theme";
+import Login from '../screens/Login';
+import Register from '../screens/Register';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -17,6 +19,17 @@ const Stack = createStackNavigator();
 export function AppRoutes() {
   return (
     <Stack.Navigator>
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Register"
+        component={Register}
+        options={{ headerShown: false }}
+      />
+      
       <Stack.Screen
         name="HomeTab"
         component={Tabs}
