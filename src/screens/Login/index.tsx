@@ -35,6 +35,7 @@ const Login = () => {
           nav.replace("HomeTab")
         }
       } catch (e) {
+        console.log(e)
         Alert.alert("Opa!", "Por favor, confira suas credenciais e tente novamente.")
       }
     }
