@@ -22,11 +22,30 @@ import { theme } from "../../styles/theme";
 import CartItemCard from "../../components/Cards/CartItemCard";
 import { useNavigation } from "@react-navigation/native";
 import { TextInput } from "react-native";
+import { useCartContext } from "../../context/CartContext/UseCartContext";
 
 interface CartProps {}
 
 const Cart = (props: CartProps) => {
   const navigation = useNavigation();
+
+  const { cartListItems, setCartListItems } = useCartContext();
+
+  const [total, setTotal] = React.useState(0);
+
+  const getTotal = () => {
+    if (cartListItems.length > 0) {
+      const prices = cartListItems.map((product) => Number(product.value));
+      const total = prices.reduce((acc, curr) => acc + curr);
+      setTotal(Number(total));
+    } else {
+      setTotal(0);
+    }
+  };
+
+  React.useEffect(() => {
+    getTotal();
+  });
 
   return (
     <CustomSafeAreaView>
@@ -46,33 +65,35 @@ const Cart = (props: CartProps) => {
         <CartContainer>
           <CartTitle>Minha Sacola</CartTitle>
 
-          <CartItemCard
-            imageUrl="https://dhhim4ltzu1pj.cloudfront.net/media/images/arc_coverimg_02.2e16d0ba.fill-1200x630.jpg"
-            itemTitle="Kano Red Rogue - F&B"
-            itemDescription="O mago vermelho"
-            itemPrice="R$200,00"
-          />
-
-          <CartItemCard
-            imageUrl="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh5zwVTXTu3NMRF2mmhJ0yNrSnPdVnVRC3ZxwUziNV8J2v44cnKbT7iRYG6NTIGC2Nvh4aWNKuvizcSzjM4vom70UTeLM5KtmMuu7VzDTlkZYXxgR1y9ukPUrgk6Wzubnl4rOvxT6rthyphenhyphenk/s640/Teysa-Orzhov-Scion.jpg"
-            itemTitle="Deck Orzhov - Magic"
-            itemDescription="Deck Orzhov preto e branco"
-            itemPrice="R$245.00"
-          />
-          <PromotionalCodeInput>
-            <TextInput
-              style={{ flex: 1 }}
-              placeholder="Código promocional"
-              placeholderTextColor={theme.colors.fontGray2}
+          {cartListItems.map((item, index) => (
+            <CartItemCard
+              key={index}
+              imageUrl={item.image}
+              itemTitle={item.title}
+              itemDescription={item.subtitle}
+              itemPrice={item.value}
+              onDelete={() =>
+                setCartListItems(cartListItems.filter((_, i) => index != i))
+              }
             />
-            <ApplyButton>
-              <ApplyButtonText>Aplicar</ApplyButtonText>
-            </ApplyButton>
-          </PromotionalCodeInput>
+          ))}
+
+          {cartListItems.length > 0 && (
+            <PromotionalCodeInput>
+              <TextInput
+                style={{ flex: 1 }}
+                placeholder="Código promocional"
+                placeholderTextColor={theme.colors.fontGray2}
+              />
+              <ApplyButton>
+                <ApplyButtonText>Aplicar</ApplyButtonText>
+              </ApplyButton>
+            </PromotionalCodeInput>
+          )}
         </CartContainer>
         <TotalFooter>
-          <TotalLabel>Total (3 itens):</TotalLabel>
-          <TotalValue>R$ 445.00</TotalValue>
+          <TotalLabel>Total ({cartListItems.length} itens):</TotalLabel>
+          <TotalValue>R${total.toFixed(2)}</TotalValue>
         </TotalFooter>
         <FinishButton>
           <FinishButtonText>Finalizar compra</FinishButtonText>

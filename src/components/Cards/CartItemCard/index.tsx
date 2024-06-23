@@ -20,6 +20,7 @@ interface CartItemCardProps {
   itemTitle: string;
   itemDescription: string;
   itemPrice: string;
+  onDelete: () => void;
 }
 
 const CartItemCard = ({
@@ -27,8 +28,11 @@ const CartItemCard = ({
   itemDescription,
   itemPrice,
   itemTitle,
+  onDelete,
 }: CartItemCardProps) => {
   const navigation = useNavigation();
+  const [quantity, setQuantity] = React.useState(1);
+
   function renderRightActions() {
     return (
       <TouchableOpacity
@@ -43,6 +47,7 @@ const CartItemCard = ({
             backgroundColor: theme.colors.red,
           },
         ]}
+        onPress={onDelete}
       >
         <TrashIcon color={theme.colors.white} />
       </TouchableOpacity>
@@ -66,9 +71,9 @@ const CartItemCard = ({
             </TouchableOpacity>
             <ItemDescription>{itemDescription}</ItemDescription>
           </View>
-          <ItemPrice>{itemPrice}</ItemPrice>
+          <ItemPrice>R${Number(itemPrice).toFixed(2)}</ItemPrice>
         </InfoContainer>
-        <QuantityChangeButton />
+        <QuantityChangeButton quantity={quantity} setQuantity={setQuantity} />
       </CartItemContainer>
     </Swipeable>
   );
