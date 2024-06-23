@@ -12,6 +12,7 @@ import {
 import { Routes } from "./src/routes";
 import { useCallback } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { CartProvider } from "./src/context/CartContext/CartProvider";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -37,7 +38,9 @@ export default function App() {
     <GestureHandlerRootView onLayout={onLayoutRootView} style={{ flex: 1 }}>
       <GluestackUIProvider>
         <SafeAreaProvider>
-          <Routes />
+          <CartProvider>
+            <Routes />
+          </CartProvider>
         </SafeAreaProvider>
       </GluestackUIProvider>
     </GestureHandlerRootView>
