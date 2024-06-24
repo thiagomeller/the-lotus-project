@@ -22,10 +22,6 @@ const Login = () => {
   const [email, setEmail] = React.useState("")
   const [password, setPassword] = React.useState("")
 
-  // const createProfile = async (response: FirebaseAuthTypes.UserCredential) => {
-  //   db().ref(`/users/${response.user.uid}`).set({ name })
-  // }
-
   const handleLogin = async ({ email, password }: UserType) => {
     if (email && password) {
       try {

@@ -53,3 +53,9 @@ export const ItemImage = styled.Image`
   aspect-ratio: 1;
   border-radius: 8px 8px 0 0;
 `;
+
+export const NoProductWarning = styled.View`
+  justify-content: center;
+  margin: auto;
+  padding: 30px 0;
+`
