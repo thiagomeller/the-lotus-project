@@ -1,5 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
 import { ScrollView, Text, View } from "react-native";
+import auth from "@react-native-firebase/auth";
+import { getDatabase, ref, child, get } from "firebase/database";
+import { useEffect, useState } from "react";
 import * as React from "react";
 
 import LogoIcon from "../../assets/lotus-logo.svg";
@@ -12,37 +15,28 @@ import * as S from "./styles";
 
 const Profile = () => {
   const navigation = useNavigation();
+  const [products, setProducts] = useState<any[]>();
+  const [userName, setUserName] = useState<any>();
+  const currentUser = auth().currentUser;
 
-  const data = [
-    {
-      id: "01",
-      title: "Produto 01",
-      subtitle: "Ut tincidunt tincidunt erat.",
-      imgUrl:
-        "https://dhhim4ltzu1pj.cloudfront.net/media/images/arc_coverimg_02.2e16d0ba.fill-1200x630.jpg",
-    },
-    {
-      id: "02",
-      title: "Produto 02",
-      subtitle: "Aenean ut eros et nisl.",
-      imgUrl:
-        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh5zwVTXTu3NMRF2mmhJ0yNrSnPdVnVRC3ZxwUziNV8J2v44cnKbT7iRYG6NTIGC2Nvh4aWNKuvizcSzjM4vom70UTeLM5KtmMuu7VzDTlkZYXxgR1y9ukPUrgk6Wzubnl4rOvxT6rthyphenhyphenk/s640/Teysa-Orzhov-Scion.jpg",
-    },
-    {
-      id: "03",
-      title: "Produto 03",
-      subtitle: "Phasellus ullamcorper ipsum.",
-      imgUrl:
-        "https://dhhim4ltzu1pj.cloudfront.net/media/images/arc_coverimg_02.2e16d0ba.fill-1200x630.jpg",
-    },
-    {
-      id: "04",
-      title: "Produto 04",
-      subtitle: "Phasellus ullamcorper ipsum.",
-      imgUrl:
-        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh5zwVTXTu3NMRF2mmhJ0yNrSnPdVnVRC3ZxwUziNV8J2v44cnKbT7iRYG6NTIGC2Nvh4aWNKuvizcSzjM4vom70UTeLM5KtmMuu7VzDTlkZYXxgR1y9ukPUrgk6Wzubnl4rOvxT6rthyphenhyphenk/s640/Teysa-Orzhov-Scion.jpg",
-    },
-  ];
+  const getProducts = async () => {
+    const dbRef = ref(getDatabase());
+
+    get(child(dbRef, `users/${currentUser?.uid}`))
+      .then((snapshot) => {
+        setUserName(snapshot.val().name);
+        if (snapshot.val()?.products) {
+          setProducts(Object.entries(snapshot.val()?.products));
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, []);
 
   return (
     <CustomSafeAreaView>
@@ -56,39 +50,42 @@ const Profile = () => {
 
         <S.ProfileInfo>
           <FontBold>Nome</FontBold>
-          <Text>Nome da silva</Text>
-        </S.ProfileInfo>
-
-        <S.ProfileInfo>
-          <FontBold>Telefone</FontBold>
-          <Text>(48) 99999-9999</Text>
+          <Text>{userName}</Text>
         </S.ProfileInfo>
 
         <S.ProfileInfo>
           <FontBold>Email</FontBold>
-          <Text>nomedasilva@gmail.com</Text>
+          <Text>{currentUser?.email}</Text>
         </S.ProfileInfo>
 
         <FontBold style={{ marginTop: 16 }}>Produtos cadastados:</FontBold>
 
         <ScrollView horizontal={true}>
-          {data.map((data) => (
-            <S.ProductCard
-              style={{ elevation: 2 }}
-              key={data.id}
-              onPress={() => navigation.navigate("Product")}
-            >
-              <S.ItemImage
-                source={{
-                  uri: data.imgUrl,
-                }}
-              />
-              <View style={{ padding: 8 }}>
-                <FontBold>{data.title}</FontBold>
-                <Text>{data.subtitle}</Text>
-              </View>
-            </S.ProductCard>
-          ))}
+          {products ? (
+            products?.map(([key, value]) => (
+              <S.ProductCard
+                style={{ elevation: 2 }}
+                key={key}
+                onPress={() => navigation.navigate("Product")}
+              >
+                <S.ItemImage
+                  source={{
+                    uri: value.image,
+                  }}
+                />
+                <View style={{ padding: 8 }}>
+                  <FontBold>{value.title}</FontBold>
+                  <Text>{value.subtitle}</Text>
+                </View>
+              </S.ProductCard>
+            ))
+          ) : (
+            <S.NoProductWarning>
+              <Text style={{ color: theme.colors.fontGray2 }}>
+                Nenhum produto cadastrado
+              </Text>
+            </S.NoProductWarning>
+          )}
         </ScrollView>
 
         <S.Button onPress={() => navigation.navigate("NewProduct")}>
