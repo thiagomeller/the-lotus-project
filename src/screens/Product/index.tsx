@@ -10,20 +10,15 @@ import QuantityChangeButton from "../../components/QuantityChangeButton";
 import { FontBold } from "../../styles/fonts";
 import { theme } from "../../styles/theme";
 import * as S from "./styles";
+import { useCartContext } from "../../context/CartContext/UseCartContext";
+import { IProducts } from "../../@types/types";
 
-interface ProductProps {
-  id: string;
-  title: string;
-  description: string;
-  value: number;
-  image: string;
-  subtitle: string;
-}
 
-const Product = (props: ProductProps) => {
+const Product = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const params = route.params as ProductProps;;
+  const {cartListItems, setCartListItems} = useCartContext(); 
+  const params = route.params as IProducts;
 
   return (
     <CustomSafeAreaView>
@@ -63,7 +58,7 @@ const Product = (props: ProductProps) => {
           <S.Text>Preço</S.Text>
           <FontBold>R${params.value}</FontBold>
         </View>
-        <S.FooterButton onPress={() => console.log('added to cart :)')}>
+        <S.FooterButton onPress={() => setCartListItems( [...cartListItems, params] )}>
           <FontBold style={{color: theme.colors.white}}>Adicionar</FontBold>
           <CartIcon color={theme.colors.white}/>
         </S.FooterButton>
