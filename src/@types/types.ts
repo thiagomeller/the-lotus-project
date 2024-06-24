@@ -4,4 +4,6 @@ export interface IProducts {
   subtitle: string;
   title: string;
   value: string;
+  id: string;
+  user: string;
 }
