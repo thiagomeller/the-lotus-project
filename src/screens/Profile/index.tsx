@@ -15,9 +15,7 @@ import * as S from "./styles";
 
 const Profile = () => {
   const navigation = useNavigation();
-  const [products, setProducts] = useState<any[]>();
-  const [userName, setUserName] = useState<any>();
-  const [userCellphone, setUserCellphone] = useState<any>();
+  const [userInfo, setUserInfo] = useState<any>();
   const currentUser = auth().currentUser;
 
   const getProducts = async () => {
@@ -25,11 +23,7 @@ const Profile = () => {
 
     get(child(dbRef, `users/${currentUser?.uid}`))
       .then((snapshot) => {
-        setUserName(snapshot.val().name);
-        setUserCellphone(snapshot.val().cellphone);
-        if (snapshot.val()?.products) {
-          setProducts(Object.entries(snapshot.val()?.products));
-        }
+        setUserInfo(snapshot.val());
       })
       .catch((error) => {
         console.error(error);
@@ -52,38 +46,40 @@ const Profile = () => {
 
         <S.ProfileInfo>
           <FontBold>Nome</FontBold>
-          <Text>{userName}</Text>
+          <Text>{userInfo?.name}</Text>
         </S.ProfileInfo>
 
         <S.ProfileInfo>
           <FontBold>Email</FontBold>
-          <Text>{currentUser?.email}</Text>
+          <Text>{userInfo?.email}</Text>
         </S.ProfileInfo>
         <S.ProfileInfo>
           <FontBold>Telefone</FontBold>
-          <Text>{userCellphone}</Text>
+          <Text>{userInfo?.cellphone}</Text>
         </S.ProfileInfo>
         <FontBold style={{ marginTop: 16 }}>Produtos cadastados:</FontBold>
 
         <ScrollView horizontal={true}>
-          {products ? (
-            products?.map(([key, value]) => (
-              <S.ProductCard
-                style={{ elevation: 2 }}
-                key={key}
-                onPress={() => navigation.navigate("Product")}
-              >
-                <S.ItemImage
-                  source={{
-                    uri: value.image,
-                  }}
-                />
-                <View style={{ padding: 8 }}>
-                  <FontBold>{value.title}</FontBold>
-                  <Text>{value.subtitle}</Text>
-                </View>
-              </S.ProductCard>
-            ))
+          {userInfo?.products ? (
+            Object.entries(userInfo?.products)?.map(
+              ([key, value]: [any, any]) => (
+                <S.ProductCard
+                  style={{ elevation: 2 }}
+                  key={key}
+                  onPress={() => navigation.navigate("Product")}
+                >
+                  <S.ItemImage
+                    source={{
+                      uri: value.image,
+                    }}
+                  />
+                  <View style={{ padding: 8 }}>
+                    <FontBold>{value.title}</FontBold>
+                    <Text>{value.subtitle}</Text>
+                  </View>
+                </S.ProductCard>
+              )
+            )
           ) : (
             <S.NoProductWarning>
               <Text style={{ color: theme.colors.fontGray2 }}>

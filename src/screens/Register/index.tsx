@@ -28,7 +28,7 @@ const Register = () => {
   const [cellphone, setCellphone] = React.useState("")
 
   const createProfile = async (response: FirebaseAuthTypes.UserCredential) => {
-    db().ref(`/users/${response.user.uid}`).set({ name, cellphone })
+    db().ref(`/users/${response.user.uid}`).set({ name, cellphone, email })
   }
 
   const handleSubmit = async ({ name, email, password, cellphone }: UserType) => {
