@@ -80,6 +80,16 @@ const NewProduct = () => {
       description,
       image: url
     });
+    
+    await db().ref(`/products/${productId}`).set({
+      title,
+      subtitle,
+      value,
+      description,
+      image: url,
+      user: currentUser
+    });
+
   };
 
   const handleSubmit = async (product: ProductType) => {

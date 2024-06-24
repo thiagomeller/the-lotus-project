@@ -109,7 +109,6 @@ const Home = (props: HomeProps) => {
               </CardText>
               <AddToCartButton>
                 <PlusIcon color={theme.colors.white}/>
-                <AddToCartButtonText>Carrinho</AddToCartButtonText>
               </AddToCartButton>
             </ProductCard>
             </View>

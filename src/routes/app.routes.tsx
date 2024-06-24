@@ -12,6 +12,7 @@ import Profile from "../screens/Profile";
 import { theme } from "../styles/theme";
 import Login from '../screens/Login';
 import Register from '../screens/Register';
+import { useCartContext } from "../context/CartContext/UseCartContext";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -65,7 +66,7 @@ export function Tabs() {
         name="Cart"
         component={Cart}
         options={{
-          tabBarBadge: 3,
+          tabBarBadge: useCartContext().cartListItems.length.toString(),
           tabBarIcon: () => <CartIcon color={theme.colors.primaryPurple} />,
         }}
       />

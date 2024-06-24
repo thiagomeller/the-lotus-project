@@ -17,6 +17,7 @@ const Profile = () => {
   const navigation = useNavigation();
   const [products, setProducts] = useState<any[]>();
   const [userName, setUserName] = useState<any>();
+  const [userCellphone, setUserCellphone] = useState<any>();
   const currentUser = auth().currentUser;
 
   const getProducts = async () => {
@@ -25,6 +26,7 @@ const Profile = () => {
     get(child(dbRef, `users/${currentUser?.uid}`))
       .then((snapshot) => {
         setUserName(snapshot.val().name);
+        setUserCellphone(snapshot.val().cellphone);
         if (snapshot.val()?.products) {
           setProducts(Object.entries(snapshot.val()?.products));
         }
@@ -57,7 +59,10 @@ const Profile = () => {
           <FontBold>Email</FontBold>
           <Text>{currentUser?.email}</Text>
         </S.ProfileInfo>
-
+        <S.ProfileInfo>
+          <FontBold>Telefone</FontBold>
+          <Text>{userCellphone}</Text>
+        </S.ProfileInfo>
         <FontBold style={{ marginTop: 16 }}>Produtos cadastados:</FontBold>
 
         <ScrollView horizontal={true}>
