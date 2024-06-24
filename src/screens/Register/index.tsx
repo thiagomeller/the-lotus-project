@@ -13,22 +13,25 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from 'react-native-screens/lib/typescript/native-stack/types';
 
 interface UserType {
+  name: string
   email: string
   password: string
+  cellphone: string
 }
 
-const Login = () => {
+const Register = () => {
   const nav = useNavigation<NativeStackNavigationProp<any>>()
 
   const [name, setName] = React.useState("")
   const [email, setEmail] = React.useState("")
   const [password, setPassword] = React.useState("")
+  const [cellphone, setCellphone] = React.useState("")
 
   const createProfile = async (response: FirebaseAuthTypes.UserCredential) => {
-    db().ref(`/users/${response.user.uid}`).set({ name })
+    db().ref(`/users/${response.user.uid}`).set({ name, cellphone })
   }
 
-  const handleSubmit = async ({ email, password }: UserType) => {
+  const handleSubmit = async ({ name, email, password, cellphone }: UserType) => {
     try {
       const response = await auth().createUserWithEmailAndPassword(email, password)
 
@@ -55,8 +58,9 @@ const Login = () => {
         <S.Input value={name} onChangeText={setName} placeholder='Nome'/>
         <S.Input value={email} onChangeText={setEmail} placeholder='Email'/>
         <S.Input secureTextEntry value={password} onChangeText={setPassword} placeholder='Senha' />
+        <S.Input value={cellphone} onChangeText={setCellphone} placeholder='Número de celular'/>
 
-        <S.SubmitButton onPress={() => handleSubmit({ email, password })}>
+        <S.SubmitButton onPress={() => handleSubmit({ name, email, password, cellphone })}>
           <FontBold>
             Cadastrar
           </FontBold>
@@ -72,4 +76,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
