@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { ScrollView, Text, View } from "react-native";
 import auth from "@react-native-firebase/auth";
 import { getDatabase, ref, child, get } from "firebase/database";
@@ -33,6 +33,13 @@ const Profile = () => {
   useEffect(() => {
     getProducts();
   }, []);
+  
+  useFocusEffect (
+    React.useCallback(() => {
+      getProducts();
+    }, [])
+  )
+  
 
   return (
     <CustomSafeAreaView>
@@ -66,7 +73,7 @@ const Profile = () => {
                 <S.ProductCard
                   style={{ elevation: 2 }}
                   key={key}
-                  onPress={() => navigation.navigate("Product")}
+                  onPress={() => navigation.navigate("Product", value)}
                 >
                   <S.ItemImage
                     source={{

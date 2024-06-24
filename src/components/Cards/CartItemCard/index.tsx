@@ -21,6 +21,7 @@ interface CartItemCardProps {
   itemDescription: string;
   itemPrice: string;
   onDelete: () => void;
+  onPress: () => void;
 }
 
 const CartItemCard = ({
@@ -29,6 +30,7 @@ const CartItemCard = ({
   itemPrice,
   itemTitle,
   onDelete,
+  onPress,
 }: CartItemCardProps) => {
   const navigation = useNavigation();
   const [quantity, setQuantity] = React.useState(1);
@@ -57,7 +59,7 @@ const CartItemCard = ({
   return (
     <Swipeable renderRightActions={renderRightActions}>
       <CartItemContainer style={{ elevation: 2 }}>
-        <TouchableOpacity onPress={() => navigation.navigate("Product")}>
+        <TouchableOpacity onPress={onPress}>
           <ItemImage
             source={{
               uri: imageUrl,
@@ -66,7 +68,7 @@ const CartItemCard = ({
         </TouchableOpacity>
         <InfoContainer>
           <View>
-            <TouchableOpacity onPress={() => navigation.navigate("Product")}>
+            <TouchableOpacity onPress={onPress}>
               <ItemTitle>{itemTitle}</ItemTitle>
             </TouchableOpacity>
             <ItemDescription>{itemDescription}</ItemDescription>

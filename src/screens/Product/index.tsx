@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { TouchableOpacity, View, Text } from "react-native";
 
 import BackIcon from "../../assets/back.svg";
@@ -11,10 +11,19 @@ import { FontBold } from "../../styles/fonts";
 import { theme } from "../../styles/theme";
 import * as S from "./styles";
 
-interface ProductProps {}
+interface ProductProps {
+  id: string;
+  title: string;
+  description: string;
+  value: number;
+  image: string;
+  subtitle: string;
+}
 
 const Product = (props: ProductProps) => {
   const navigation = useNavigation();
+  const route = useRoute();
+  const params = route.params as ProductProps;;
 
   return (
     <CustomSafeAreaView>
@@ -34,29 +43,25 @@ const Product = (props: ProductProps) => {
       </S.Header>
       <S.Image
         source={{
-          uri: "https://dhhim4ltzu1pj.cloudfront.net/media/images/arc_coverimg_02.2e16d0ba.fill-1200x630.jpg",
+          uri: params.image,
         }}
       />
 
       <S.Card>
         <View>
-          <FontBold>Kano Red Rogue - F&B</FontBold>
-          <S.Text>O Mago Vermelho</S.Text>
-          <QuantityChangeButton />
+          <FontBold>{params.title}</FontBold>
+          <S.Text>{params.subtitle}</S.Text>
         </View>
         <FontBold style={{ marginTop: 16 }}>Descrição</FontBold>
         <S.Text>
-          {`\u2022 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.`}
+          {`\u2022 ${params.description}`}
         </S.Text>
-        <S.Text>
-          {`\u2022 At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi.`}
-        </S.Text>
-      </S.Card>
+        </S.Card>
 
       <S.Footer>
         <View>
           <S.Text>Preço</S.Text>
-          <FontBold>R$22.00</FontBold>
+          <FontBold>R${params.value}</FontBold>
         </View>
         <S.FooterButton onPress={() => console.log('added to cart :)')}>
           <FontBold style={{color: theme.colors.white}}>Adicionar</FontBold>
